@@ -1,0 +1,648 @@
+COMMIT;
+SELECT * FROM MEMBER;
+drop table member;
+/*member insert (맨아래 2개가 핵심임)-------------------------------------------------------------------------------------------------------------------------------------------------*/
+insert into member values('petmember3@nate.com', '강아지랑', '123456', '박현아', '01022252222', 'Green', 0,0,sysdate,'N',0, '여','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('petmember4@nate.com', '아지', '123456', '최지윤', '01022662222', 'Green', 0,0,sysdate,'089f68773d8e7d4e0e6865fca840bdc6.jpg',0, '여','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('petmember5@nate.com', '허스키씨', '123456', '김취직', '01022252222', 'Gold', 25,0,sysdate,'N',0, '여','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('petmember6@nate.com', '강아지씨', '123456', '최취직', '01022232222', 'Green', 0,0,sysdate,'fddfdfffb.jpg',0, '남','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('petmember7@nate.com', '양이씨', '123456', '조현재', '01022522222', 'Gold', 25,0,sysdate,'sdfvzsffdvdzfv.PNG',0, '남','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('petmember8@nate.com', '강투더아지', '123456', '이시원', '01032222222', 'Green', 0,0,sysdate,'N',0, '남','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('doctor@nate.com', '수의사', '123456', '김수의', '01032222222', 'VIP', 0,0,sysdate,'AA222.jpg',0, '남','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('petmember2@naver.com', '양이랑', '123456', '최재우', '01011111111', 'VIP', 100,0,sysdate,'xvxcverv.jpg',0, '남','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('petmember1@nate.com', '푸들과', '123456', '박현수', '01022222222', 'Green', 0,0,sysdate,'sdfvzsffdvdzfv.PNG',0, '여','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+
+ALTER TABLE MEMBER ADD(MEMBER_POINT number DEFAULT 0);
+
+
+/*운영자 insert--------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+insert into member values('admin@a.a', '운영자', '123456', '김운영', '01055555555', 'admin', 0,0,sysdate,'szdrfzdsegedrgd.png',0, '남','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+insert into member values('manager@m.m', '매니저', '123456', '강매니', '01066666666', 'manager', 0,0,sysdate,'szdrfzdsegedrgd.png',0, '남','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',0);
+
+
+/*petsitter insert-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+select * from petsitter;
+drop table petsitter;
+
+create table PETSITTER(
+    PETSITTER_ID varchar2(30) primary key, --ID
+    PETSITTER_NICKNAME varchar2(30) DEFAULT 'N', --닉네임
+    PETSITTER_NAME varchar2(20) default 'N', --이름
+    PETSITTER_PW varchar2(30) default 'N', --PW
+    PETSITTER_TEL varchar2(20) default 'N', --전화번호
+    PETSITTER_EMAIL varchar2(30) default 'N', --이메일
+    PETSITTER_SCORE number(2,1) DEFAULT 0, --평점
+    PETSITTER_COUNT number(5) DEFAULT 0, --활동횟수
+    PETSITTER_RANK varchar2(20) DEFAULT 'N', --등급('N','Pro', 'GoldPro')
+    PETSITTER_ADDRESS varchar2(100) default 'N', --주소
+    PETSITTER_INTRODUCE varchar2(2000) default 'N', --자기소개
+    PETSITTER_PRICE_30M varchar2(10), --30분가격(방문 예약)
+    PETSITTER_PRICE_60M varchar2(10), --60분가격(위탁 예약)
+    PETSITTER_SERVICE_LIST varchar2(60) default 'N', --가능한 서비스
+    PETSITTER_PHOTO_UPFILE varchar2(100) default 'N', --증명 사진
+    PETSITTER_PHOTO_PROFILE_FILE varchar2(100) default 'N', --프로필 사진
+    PETSITTER_CERT_LIST varchar2(100) default 'N', --자격증이름
+    PETSITTER_PHOTO_CERT_FILE varchar2(300) default 'N', --자격증 사진
+    PETSITTER_PHOTO_HOME_FILE varchar2(300) default 'N', --집 사진
+    PETSITTER_DATE date DEFAULT sysdate, --가입 날짜
+    PETSITTER_TYPE varchar2(20) default 'N', -- 케어종류
+    PETSITTER_REPORT number(2) default 0, --신고누적횟수, 추가
+    PETSITTER_GENDER varchar2(4) default 'N',-- 성별, 추가
+    PETSITTER_REVIEWCOUNT number(5) DEFAULT 0, --리뷰 개수
+    PETSITTER_PHOTO_APPEAL varchar2(300) default 'N', --어필 사진
+    PETSITTER_AMOUNT number default 0, --총 매출 금액
+    PETSITTER_ADDRX number default 0, -- 주소의 X좌표
+    PETSITTER_ADDRY number default 0, -- 주소의 Y좌표
+    PETSITTER_SAFEADDR varchar2(100) default 'N' -- 안심주소 (도로명주소, 상세주소)
+); 
+
+
+------펫시터 승인신청 대기용 먼저 insert (맨아래 2개가 핵심임)시작
+insert into PETSITTER values('pet88', '참이슬', '박음주', '123456',  '01033433183', 'petsitter011@nate.com', 3.5, 0, 'N','06609,서울 서초구 서운로 220,비트캠프 1층 102호',
+'안녕하세요. 반갑습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','20191128_32e47e44158b136b29b676a3de50cea1.jpg','20191128_32e47e44158b136b29b676a3de50cea1.jpg',
+'N','N', 'maxresdefault.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',0,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.021761944037, 37.5027112533189, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+insert into PETSITTER values('petwe09', '따뜻한펫시터', '박기석', '123456',  '01033333883', 'petsitter12@nate.com', 3.41, 0, 'N','06609,서울 서초구 서운로 220,비트캠프 1층 102호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','20191128_32e47e44158b136b29b676a3de50cea1.jpg','20191128_32e47e44158b136b29b676a3de50cea1.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', 'maxresdefault.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',0,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.021761944037, 37.5027112533189, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+
+insert into PETSITTER values('petsitter11', '펫을아끼는', '박초롱', '123456',  '01033433583', 'petsitter13@nate.com', 3.43, 0, 'N','06609,서울 서초구 서운로 220,비트캠프 1층 102호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','20191128_32e47e44158b136b29b676a3de50cea1.jpg','20191128_32e47e44158b136b29b676a3de50cea1.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', 'ae483d2d94a57dc606f7e8596fe21c41.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',0,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.021761944037, 37.5027112533189, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+
+insert into PETSITTER values('petsitter12', '좋은펫시터', '최수석', '123456',  '01033433383', 'petsitter14@nate.com', 3.11, 0, 'N','06609,서울 서초구 서운로 220,비트캠프 1층 102호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','20191128_32e47e44158b136b29b676a3de50cea1.jpg','20191128_32e47e44158b136b29b676a3de50cea1.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', '5e94e4c7db7c809802d1585085f7cd40.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',0,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.021761944037, 37.5027112533189, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+insert into PETSITTER values('petsitter13', '아껴줍니다', '차두리', '123456',  '01033455583', 'petsitter15@nate.com', 3.28, 0, 'N','06609,서울 서초구 서운로 220,비트캠프 1층 102호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','20191128_32e47e44158b136b29b676a3de50cea1.jpg','20191128_32e47e44158b136b29b676a3de50cea1.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', '5e94e4c7db7c809802d1585085f7cd40.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',0,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.021761944037, 37.5027112533189, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+------펫시터 승인신청 대기용 먼저 insert 종료
+
+--2번째 순위로 insert 시작
+insert into PETSITTER values('pet02', '위펫', '김정현', '123456',  '01033433333', 'petsitter03@nate.com', 3.75, 0, 'Pro','23036,인천 강화군 강화읍 갑룡길 3-11,비트캠프 3층 302호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','sdgdsfgsdfg.jpg','sdgdsfgsdfg.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', '5e94e4c7db7c809802d1585085f7cd40.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',2,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 126.494535164431, 37.7454428423841, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+insert into PETSITTER values('petsitter03', '펫맘', '최지현', '123456',  '01033433333', 'petsitter04@nate.com', 3.71, 0, 'Pro','23036,인천 강화군 강화읍 갑룡길 3-11,비트캠프 3층 302호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','vcervever.jpg','vcervever.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', 'ae483d2d94a57dc606f7e8596fe21c41.jpg, 999F1C415E3CECE02C.png,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'여',3,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 126.494535164431, 37.7454428423841, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+insert into PETSITTER values('petsitter04', '펫사랑', '박재현', '123456',  '01043433333', 'petsitter06@nate.com',3.67 , 0, 'Pro','06123,서울 강남구 강남대로 442,비트캠프 4층 402호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','xbvbdfbdeb.jpg','xbvbdfbdeb.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', 'kgjmjh.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'여',4,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.026055773707, 37.5020628314474, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+insert into PETSITTER values('petsitter05', '펫과', '전민현', '123456',  '01033435333', 'petsitter07@nate.com', 2.25, 0, 'Pro','06611,서울 서초구 강남대로 447,2층 202호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','rrrffrrrffrrf.jpg','rrrffrrrffrrf.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', 'ec1db4ddb2ee10675ba66e29197abb8c.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'여',2,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.025096790584, 37.5021919730024, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+insert into PETSITTER values('petsitter06', '펫아빠', '조민재', '123456',  '01033433633', 'petsitter08@nate.com', 3.12, 0, 'Pro','06611,서울 서초구 서초대로77길 62,3층 302호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','rrererefrffrerrf.jpg','rrererefrffrerrf.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', 'jugyjvjhj.jpg,999F1C415E3CECE02C.png,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',4,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.023903040367, 37.5027308418076, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+insert into PETSITTER values('petsitter07', '사랑펫', '박기석', '123456',  '01033433373', 'petsitter09@nate.com', 2.1, 0, 'Pro','06611,서울 강남구 강남대로110길 13,1층',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다. 항상 좋은 서비스를위해 준비를 갖추고 있으며 특별한 사항이 있다면 최대한 맞춰보도록 하겠습니다.',5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','20191128_32e47e44158b136b29b676a3de50cea1.jpg','20191128_32e47e44158b136b29b676a3de50cea1.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', 'f9a1e86bc5e3435a419d8becdf8b6a05.jpg,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',3,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.025931147995, 37.504032006687, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+--2번째 순위로 insert 종료
+
+
+--핵심 마지막으로 하기
+insert into PETSITTER values('petsitter', '펫과함께', '김훈련', '123456',  '01033333333', 'petsitter@nate.com', 3, 0, 'Pro','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫과함께입니다.안녕하세요, 강아지를 사랑하는 50대 주부입니다 ? 저는 오래 전 4개월 된 아기 요크셔테리어를 분양받아 18년 동안 가족으로 함께하다가, 작년에 무지개다리를 건너 보내고 지금은 반려동물을 키우지 않고 있습니다. 제가 그동안 반려견을 키우면서 많이 필요하고 아쉬웠던 부분이, 장시간의 외출이나 가족 여행시에 아이를 안심하고 맡길 곳이 마땅치 않아서 고민했었는데 마침 좋은 기회를 통해 펫시터 전문 과정을 수료하게 되었고 좀 더 자신감 있게 아이들을 돌볼 수 있을 것 같습니다. 저희 집 주변에는 매봉산, 양재천 등 산책로가 있어 산책하기도 좋고, 동물병원도 집 가까운 곳에 많이 있어 혹시 모를 위급 상황에도 빠르게 대처할 수 있어요',
+5000,1500,'대형견 케어 가능,픽업 가능,마당 존재','sdgsdgsdg.jpg','sdgsdgsdg.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', '999F1C415E3CECE02C.png,ae483d2d94a57dc606f7e8596fe21c41.jpg,5e94e4c7db7c809802d1585085f7cd40.jpg',
+sysdate,'방문,위탁',0,'남',6,'awsvsvsv.jpg,vcervever.jpg,rewerwerw.jpg,', 0, 127.024481869429, 37.5031241023357, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+
+insert into PETSITTER values('sitter01', '펫이랑', '이수의', '123456',  '01044444444', 'sitter01@naver.com', 3.83, 25, 'GoldPro','06611,서울 서초구 강남대로 459,비트캠프 3층 302호',
+'안녕하세요 신뢰가는 펫시터가 되기위해 노력하는 펫이랑입니다. 안녕하세요, 강아지를 사랑하는 30대 주부입니다 ? 저는 오래 전 4개월 된 아기 요크셔테리어를 분양받아 18년 동안 가족으로 함께하다가, 작년에 무지개다리를 건너 보내고 지금은 반려동물을 키우지 않고 있습니다. 제가 그동안 반려견을 키우면서 많이 필요하고 아쉬웠던 부분이, 장시간의 외출이나 가족 여행시에 아이를 안심하고 맡길 곳이 마땅치 않아서 고민했었는데 마침 좋은 기회를 통해 펫시터 전문 과정을 수료하게 되었고 좀 더 자신감 있게 아이들을 돌볼 수 있을 것 같습니다. 저희 집 주변에는 매봉산, 양재천 등 산책로가 있어 산책하기도 좋고, 동물병원도 집 가까운 곳에 많이 있어 혹시 모를 위급 상황에도 빠르게 대처할 수 있어요',
+5000,2000,'픽업 가능,마당 존재','awsvsvsv.jpg','awsvsvsv.jpg',
+'Petstiny훈련사자격증,국제애견관리자격증,애견미용자격증','xzcsdzzzsz.jpg,ghjtyeeett.jpg,sdgsgsgdsdvvbvvccc.jpg', 'd6dcae1bc882dff4437b681705989106.jpg,c8192daa51629691994dfb373172f8f1.jpg,e172e8ad46d34a98a4587a8169ee7141.jpg',
+sysdate,'방문,위탁',0,'여',7,'20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg,sdfsdfsaasaasassa.jpg,B003059676.jpg,', 0, 127.024481869429, 37.5031241023357, '서울 강남구 봉은사로 지하 102,신논현역 7번출구 5분거리');
+--핵심 마지막으로 하기
+
+
+
+
+/*REVIEW BOARD 위에서부터 드래그로 한번에 insert------------------------------------------------------------------------------------------------------------------------*/
+select * from review_board;
+drop table REVIEW_BOARD;
+
+create table REVIEW_BOARD(
+    LIST_NUM number(10), -- 리뷰 번호
+    USINGLIST_NUM number(10), -- 이용내역 번호
+    MEMBER_ID varchar2(30), -- 회원 아이디
+    PETSITTER_ID varchar2(30), -- 펫시터 아이디
+    REVIEW_CONTENT varchar2(250) default 'N', -- 리뷰 내용
+    REVIEW_SCORE number(2,1) default 0, -- 리뷰 평점
+    REVIEW_UP_PHOTO varchar2(200) default 'N', -- 업로드된 리뷰 사진
+    REVIEW_DATE date default sysdate, -- 리뷰 작성일
+    LIKE_COUNT number(6) default 0, -- 좋아요 수
+    BOARD_TYPE VARCHAR2(20) default 'REVIEW_BOARD', -- 게시판 타입
+    REVIEW_REFLY VARCHAR2(250) DEFAULT 'N'--후기게시판 답변
+);
+CREATE TABLE LIKE_COUNT(
+    LIKE_NUM NUMBER primary key, --좋아요 번호
+    LIKE_ID varchar2(2000), -- 좋아요 아이디
+    LIKE_TYPE varchar2(20) default 'REVIEW_BOARD' -- 좋아요 타입
+);
+/
+--트리거(REVIEW_BOARD, LIKE_COUNT 트리거)
+CREATE OR REPLACE TRIGGER REVIEW_LIKE_INSERT_TRG1
+BEFORE INSERT ON REVIEW_BOARD
+BEGIN
+INSERT into LIKE_COUNT
+VALUES ((SELECT NVL(MAX(LIST_NUM),0)+1 FROM REVIEW_BOARD),'N','REVIEW_BOARD');
+END;
+/
+
+
+insert into REVIEW_BOARD
+    values(1, 1, 'petmember1@nate.com', 'petsitter', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    4, 'b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/01', 0, 'REVIEW_BOARD', 'N');
+    
+insert into REVIEW_BOARD 
+    values(2, 2, 'petmember1@nate.com', 'sitter01', 'lksdjfklsdjflksjdaf;nvfio aiovjoisjfojwje eiowjfweijfklwsnm oiewmnfoiwijwofijoiw jfwoie joifj w woei jewmfewim oiwefm oiwem wo me imwoefmeowfoiwjfowijfio jif jowefj oiewfj oi jijeiowjfoiwfjwfjiwieji fiewjo ijwof joewijwjiefowijof', 
+    3,'N','2020/06/02', 0, 'REVIEW_BOARD', 'N');
+
+insert into REVIEW_BOARD
+    values(3, 3, 'petmember1@nate.com', 'petsitter04', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    5, 'b20bb30b99304d92bb6d5c2f68df953e.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/03', 0, 'REVIEW_BOARD', 'N');
+
+insert into REVIEW_BOARD
+    values(4, 4, 'petmember3@nate.com', 'petsitter05', ' 코코 데리러 갔는데 코코 표정이 너무 밝아서 4일동안 정말 잘 돌봐주셨구나 바로 알 수 있었어요.  시팅 전부터 식습관, 잠자리 습관, 성격 등 자세히 물어봐주시고 코코가 지내던 환경보다 더 좋게 세세하게 챙겨주셨어요. ', 
+    4, '70b56dcfeac3435a99094ec36b8348cf.png,b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/04', 0, 'REVIEW_BOARD', 'N');
+
+insert into REVIEW_BOARD
+    values(5, 5, 'petmember3@nate.com', 'petsitter', '따뜻한 봄바람을 불어 보내는 것은 청춘의 끓는 피다 청춘의 피가 뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가 운다사랑의 풀이 없으면 인간은 사막이다 오아이스도 없는 사막이다', 
+    5, '5daa8eee47d04c9fbe18d96d251a0fd2.png,b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/05', 0, 'REVIEW_BOARD', 'N');
+    
+insert into REVIEW_BOARD
+    values(6, 6, 'petmember4@nate.com', 'petsitter04', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    1, 'vfvffvfxx.jpg,b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/06', 0, 'REVIEW_BOARD', 'N');
+    
+insert into REVIEW_BOARD
+    values(7, 7, 'petmember1@nate.com', 'sitter01', '따뜻한 봄바람을 불어 보내는 것은 청춘의 끓는 피다 청춘의 피가 뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가 운다사랑의 풀이 없으면 인간은 사막이다 오아이스도 없는 사막이다', 
+    5, 'qweqweqweqweqwaaa.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/07', 13, 'REVIEW_BOARD', 'N');
+    
+insert into REVIEW_BOARD
+    values(8, 8, 'petmember1@nate.com', 'petsitter04', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    5, 'zdzxzz.jpg,b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/08', 13, 'REVIEW_BOARD', 'N');
+    
+    
+insert into REVIEW_BOARD
+    values(9, 9, 'petmember4@nate.com', 'petsitter', ' 4일동안 정말 잘 돌봐주셨구나 바로 알 수 있었어요. 김*배 시터님 매우 추천드려요. 시팅 전부터 식습관, 잠자리 습관, 성격 등 자세히 물어봐주시고 코코가 지내던 환경보다 더 좋게 세세하게 챙겨주셨어요. ', 
+    5, 'efvefee.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/09', 13, 'REVIEW_BOARD', 'N');
+    
+insert into REVIEW_BOARD
+    values(10, 10, 'petmember5@nate.com', 'petsitter05', '기존에 맡겼던 시터님과 휴가일정이 곂치는 바람에 부랴부랴 김*숙 시터님에게 맡기게 되었습니다 첫 펫시팅은 중현견이 있던 곳이었는데 낯가리는 뚱이와는 다르게 적극적이었던 친구였던터라ㅠㅠ... 뚱이가 많이 힘들어 했었습니다', 
+    5, '70b56dcfeac3435a99094ec36b8348cf.png,b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/10', 13, 'REVIEW_BOARD', 'N');
+
+insert into REVIEW_BOARD
+    values(11, 11, 'petmember6@nate.com', 'petsitter04', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    5, 'ewrwerwerwer.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/11', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');
+
+insert into REVIEW_BOARD
+    values(12, 12, 'petmember7@nate.com', 'petsitter05', '기존에 맡겼던 시터님과 휴가일정이 곂치는 바람에 부랴부랴 김*숙 시터님에게 맡기게 되었습니다 첫 펫시팅은 중현견이 있던 곳이었는데 낯가리는 뚱이와는 다르게 적극적이었던 친구였던터라ㅠㅠ... 뚱이가 많이 힘들어 했었습니다', 
+    5, '70b56dcfeac3435a99094ec36b8348cf.png,b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/12', 13, 'REVIEW_BOARD', 'N');
+    
+insert into REVIEW_BOARD
+    values(13, 13, 'petmember8@nate.com', 'petsitter', '. 코코 데리러 갔는데 코코 표정이 너무 밝아서 4일동안 정말 잘 돌봐주셨구나 바로 알 수 있었어요. 김*배 시터님 매우 추천드려요. 잠자리 습관, 성격 등 자세히 물어봐주시고 코코가 지내던 환경보다 더 좋게 세세하게 챙겨주셨어요. ', 
+    5, 'fwwewewewef.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/13', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');
+    
+insert into REVIEW_BOARD
+    values(14, 14, 'petmember1@nate.com', 'sitter01', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    3, '17fe385ff6.jpg','2020/06/14', 13, 'REVIEW_BOARD', 'N');
+    
+insert into REVIEW_BOARD
+    values(15, 15, 'petmember2@nate.com', 'petsitter04', '기존에 맡겼던 시터님과 휴가일정이 곂치는 바람에 부랴부랴 김*숙 시터님에게 맡기게 되었습니다 첫 펫시팅은 중현견이 있던 곳이었는데 낯가리는 뚱이와는 다르게 적극적이었던 친구였던터라ㅠㅠ... 뚱이가 많이 힘들어 했었습니다', 
+    1, '','2020/06/15', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');
+    
+insert into REVIEW_BOARD
+    values(16, 16, 'petmember4@nate.com', 'sitter01', '따뜻한 봄바람을 불어 보내는 것은 청춘의 끓는 피다 청춘의 피가 뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가 운다사랑의 풀이 없으면 인간은 사막이다 오아이스도 없는 사막이다', 
+    4, '70b56dcfeac3435a99094ec36b8348cf.png,b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/16', 13, 'REVIEW_BOARD', 'N');    
+
+insert into REVIEW_BOARD
+    values(17, 17, 'petmember7@nate.com', 'petsitter', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    5, '20191128_32e47e44158b136b29b676a3de50cea1.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/17', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');     
+    
+insert into REVIEW_BOARD
+    values(18, 18, 'petmember6@nate.com', 'petsitter05', '기존에 맡겼던 시터님과 휴가일정이 곂치는 바람에 부랴부랴 김*숙 시터님에게 맡기게 되었습니다 첫 펫시팅은 중현견이 있던 곳이었는데 낯가리는 뚱이와는 다르게 적극적이었던 친구였던터라ㅠㅠ... 뚱이가 많이 힘들어 했었습니다', 
+    5, 'b20bb30b99304d92bb6d5c2f68df953e.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/18', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');   
+
+insert into REVIEW_BOARD
+    values(19, 19, 'petmember4@nate.com', 'petsitter04', '안심이 되고 간단한 미용과 목욕, 그리고 산책까지해주셔서 이번에도 로또를 부탁드리게되었습니다. 이번엔 여름휴가 때문에 2박이나 하였는데 그동안 눈물도 틈틈이 닦아주시고 비오는날에는 산책을 못하는 대신에 주차장에서라도 로또를 놀아주셨어요', 
+    5, '20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg','2020/06/19', 13, 'REVIEW_BOARD', 'N');       
+
+insert into REVIEW_BOARD
+    values(20, 20, 'petmember5@nate.com', 'petsitter05', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    5, '70235e6af5f2787c703ca6de409467e29e5f566e.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/20', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');  
+
+insert into REVIEW_BOARD
+    values(21, 21, 'petmember3@nate.com', 'petsitter', '기존에 맡겼던 시터님과 휴가일정이 곂치는 바람에 부랴부랴 김*숙 시터님에게 맡기게 되었습니다 첫 펫시팅은 중현견이 있던 곳이었는데 낯가리는 뚱이와는 다르게 적극적이었던 친구였던터라ㅠㅠ... 뚱이가 많이 힘들어 했었습니다', 
+    5, '14a8196da033198fef46b7e8af3284e4.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/21', 13, 'REVIEW_BOARD', 'N');  
+
+insert into REVIEW_BOARD
+    values(22, 22, 'petmember5@nate.com', 'sitter01', '3박 4일 코코 펫시팅 부탁드렸어요. 김*배 시터님 매우 추천드려요. 시팅 전부터 식습관, 잠자리 습관, 성격 등 자세히 물어봐주시고 코코가 지내던 환경보다 더 좋게 세세하게 챙겨주셨어요. ', 
+    5, '1af1db2ac6.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/22', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');  
+    
+insert into REVIEW_BOARD
+    values(23, 23, 'petmember6@nate.com', 'petsitter05', '너무 안심이 되고 간단한 미용과 목욕, 그리고 산책까지해주셔서 이번에도 로또를 부탁드리게되었습니다. 이번엔 여름휴가 때문에 2박이나 하였는데 그동안 눈물도 틈틈이 닦아주시고 비오는날에는 산책을 못하는 대신에 주차장에서라도 로또를 놀아주셨어요', 
+    3, '','2020/06/23', 13, 'REVIEW_BOARD', 'N');  
+    
+insert into REVIEW_BOARD
+    values(24, 24, 'petmember3@nate.com', 'petsitter', '기존에 맡겼던 시터님과 휴가일정이 곂치는 바람에 부랴부랴 김*숙 시터님에게 맡기게 되었습니다 첫 펫시팅은 중현견이 있던 곳이었는데 낯가리는 뚱이와는 다르게 적극적이었던 친구였던터라ㅠㅠ... 뚱이가 많이 힘들어 했었습니다', 
+    5, '17fe385ff6.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/24', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');  
+    
+insert into REVIEW_BOARD
+    values(25, 25, 'petmember7@nate.com', 'petsitter05', '코코 표정이 너무 밝아서 4일동안 정말 잘 돌봐주셨구나 바로 알 수 있었어요. 김*배 시터님 매우 추천드려요. 시팅 전부터 식습관, 잠자리 습관, 성격 등 자세히 물어봐주시고 코코가 지내던 환경보다 더 좋게 세세하게 챙겨주셨어요. ', 
+    5, '70235e6af5f2787c703ca6de409467e29e5f566e.jpg,70b56dcfeac3435a99094ec36b8348cf.png','2020/06/25', 13, 'REVIEW_BOARD', 'N');     
+
+insert into REVIEW_BOARD
+    values(26, 26, 'petmember6@nate.com', 'petsitter04', '지민님에게 저희 쿠쿠를 맡긴지 이번이 4번째 되는거같아요~ 매번 급하게 여쭤보는데 흔쾌히 수락해주셔서 너무 감사합니다. 쿠쿠가 최근들어 많이 예민해서 산책하기도 어려우셨을텐데 그럼에도 매일 산책 시켜주셔서 넘 감사했습니다^^', 
+    5, 'ftjtyjfghjghj.jpg,b20bb30b99304d92bb6d5c2f68df953e.jpg','2020/06/26', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');  
+   
+insert into REVIEW_BOARD
+    values(27, 27, 'petmember5@nate.com', 'petsitter', '너무 안심이 되고 간단한 미용과 목욕, 그리고 산책까지해주셔서 이번에도 로또를 부탁드리게되었습니다. 이번엔 여름휴가 때문에 2박이나 하였는데 그동안 눈물도 틈틈이 닦아주시고 비오는날에는 산책을 못하는 대신에 주차장에서라도 로또를 놀아주셨어요', 
+    1, '','2020/06/27', 13, 'REVIEW_BOARD', 'N');      
+
+insert into REVIEW_BOARD
+    values(28, 28, 'petmember4@nate.com', 'sitter01', '코코 표정이 너무 밝아서 4일동안 정말 잘 돌봐주셨구나 바로 알 수 있었어요. 김*배 시터님 매우 추천드려요. 시팅 전부터 식습관, 잠자리 습관, 성격 등 자세히 물어봐주시고 코코가 지내던 환경보다 더 좋게 세세하게 챙겨주셨어요. ', 
+    3, 'B003059676.jpg,sdfgdgdf.jpg','2020/06/28', 13, 'REVIEW_BOARD', '언제나 신뢰가는 펫시터가 되기 위해 노력하겠습니다.');   
+    
+insert into REVIEW_BOARD
+    values(29, 29, 'petmember3@nate.com', 'petsitter', '기존에 맡겼던 시터님과 휴가일정이 곂치는 바람에 부랴부랴 김*숙 시터님에게 맡기게 되었습니다 첫 펫시팅은 중현견이 있던 곳이었는데 낯가리는 뚱이와는 다르게 적극적이었던 친구였던터라ㅠㅠ... 뚱이가 많이 힘들어 했었습니다', 
+    2, '1af1db2ac6.jpg,qweqweqweqweqwaaa.jpg,sasdasdvcvcvcvc.jpg','2020/06/29', 13, 'REVIEW_BOARD', 'N');    
+
+insert into REVIEW_BOARD
+    values(30, 30, 'petmember1@nate.com', 'petsitter04', '안녕하세요~~ 순희 펫시터님, 4박5일 동안 울 후추 잘 봐주셔서 너무너무 감사합니다? 사실 저희 후추가 아직 아기라 쉬는 90프로 가렸는데 응가는 0프로 ㅠㅠ 그와중에 환경이 바껴서 쉬도 못가리고, 응가도 막 싸고 했을텐데, 잘 돌봐주셔서 감사합니다', 
+    4, '367d90d709b1409aa06f5a22bbdf0476.jpg','2020/06/30', 13, 'REVIEW_BOARD', 'N');       
+    
+  
+/*PRO_BOARD-----------------------------------------------------------*/
+drop table pro_board;
+create table PRO_BOARD(
+    PRO_NUM number(6) primary key, -- 글 번호  
+    MEMBER_ID varchar2(30), -- 아이디
+    MEMBER_NICKNAME varchar2(30) DEFAULT 'N', --닉네임  
+    PRO_SUBJECT varchar2(100), -- 제목
+    PRO_CONTENT varchar2(3000), -- 내용
+    PRO_ORG_FILE varchar2(100), -- 파일이름
+    PRO_UP_FILE varchar2(100), -- 업로드된 파일이름
+    PRO_READCOUNT number, -- 조회수
+    PRO_DATE date default sysdate, -- 작성일
+    PRO_LIKECOUNT number, -- 좋아요 수
+    BOARD_TYPE VARCHAR2(20) default 'PRO_BOARD', -- 게시판 타입 
+    SECRET_CHECK VARCHAR2(4) default 'N' -- 비밀게시판 확인 
+);
+
+insert into PRO_BOARD values (1, 'petmember2@naver.com', '양이랑','입양 고양이가 기운이 없어요','안녕하세요 고양이를 입양했는데 기운이 없고 피부 트러블을 발견했어요 어떻게 치료할가요.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (2, 'petmember1@nate.com', '푸들과','푸들이 다른 사람들을 물어요','훈련사님 푸들을 어떻게 교육시켜야 할지 모르겠습니다. 혹시 괜찮은 영상을 추천받을 수 있을까요?.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (3, 'petmember3@nate.com', '강아지랑','저희 강아지가 플라스틱 조그만 공을 삼켰어요','저희 강아지가 플라스틱 조그만 공을 삼켰어요 1CM 정도 되는데 병원에서는 괜찮데요 괜찮을까요? ',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (4, 'petmember4@nate.com', '아지','입양 고양이가 기운이 없어요','안녕하세요 고양이를 입양했는데 기운이 없고 피부 트러블을 발견했어요 어떻게 치료할가요.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (5, 'petmember5@nate.com', '허스키씨','푸들이 다른 사람들을 물어요','훈련사님 푸들을 어떻게 교육시켜야 할지 모르겠습니다. 혹시 괜찮은 영상을 추천받을 수 있을까요?.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (6, 'petmember3@nate.com', '강아지랑','저희 강아지가 플라스틱 조그만 공을 삼켰어요','저희 강아지가 플라스틱 조그만 공을 삼켰어요 1CM 정도 되는데 병원에서는 괜찮데요 괜찮을까요? ',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (7, 'petmember2@naver.com', '양이랑','입양 고양이가 기운이 없어요','안녕하세요 고양이를 입양했는데 기운이 없고 피부 트러블을 발견했어요 어떻게 치료할가요.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (8, 'petmember1@nate.com', '푸들과','푸들이 다른 사람들을 물어요','훈련사님 푸들을 어떻게 교육시켜야 할지 모르겠습니다. 혹시 괜찮은 영상을 추천받을 수 있을까요?.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (9, 'petmember3@nate.com', '강아지랑','저희 강아지가 플라스틱 조그만 공을 삼켰어요','저희 강아지가 플라스틱 조그만 공을 삼켰어요 1CM 정도 되는데 병원에서는 괜찮데요 괜찮을까요? ',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (10, 'petmember2@naver.com', '양이랑','입양 고양이가 기운이 없어요','안녕하세요 고양이를 입양했는데 기운이 없고 피부 트러블을 발견했어요 어떻게 치료할가요.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (11, 'petmember4@nate.com', '아지','입양 고양이가 기운이 없어요','안녕하세요 고양이를 입양했는데 기운이 없고 피부 트러블을 발견했어요 어떻게 치료할가요.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (12, 'petmember5@nate.com', '허스키씨','푸들이 다른 사람들을 물어요','훈련사님 푸들을 어떻게 교육시켜야 할지 모르겠습니다. 혹시 괜찮은 영상을 추천받을 수 있을까요?.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (13, 'petmember1@nate.com', '푸들과','푸들이 다른 사람들을 물어요','훈련사님 푸들을 어떻게 교육시켜야 할지 모르겠습니다. 혹시 괜찮은 영상을 추천받을 수 있을까요?.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (14, 'petmember3@nate.com', '강아지랑','저희 강아지가 플라스틱 조그만 공을 삼켰어요','저희 강아지가 플라스틱 조그만 공을 삼켰어요 1CM 정도 되는데 병원에서는 괜찮데요 괜찮을까요? ',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+insert into PRO_BOARD values (15, 'petmember2@naver.com', '양이랑','입양 고양이가 기운이 없어요','안녕하세요 고양이를 입양했는데 기운이 없고 피부 트러블을 발견했어요 어떻게 치료할가요.',
+'14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg','14a8196da033198fef46b7e8af3284e4.jpg,1af1db2ac6,jpg',0 ,sysdate, 0, 'PRO_BOARD', NVL(null, 'N'));
+
+  
+/*PROREPLY-----------------------------------------------------------*/
+CREATE TABLE PROREPLY (
+    BNO NUMBER, 
+    RNO NUMBER, 
+    CONTENT VARCHAR2(2000 BYTE), 
+    WRITER_ID VARCHAR2(30 BYTE), 
+    REGDATE DATE DEFAULT sysdate, 
+    WRITER_NICKNAME VARCHAR2(30 BYTE),
+    B_TYPE VARCHAR2(20) default 'PRO_BOARD' 
+);
+
+insert into PROREPLY values (15, 1,'사진 증상으로보아 입양되기전을 그리워하는 우울증 증상중 하나로 보입니다. 고객님께서 신경써주시면 시간이 지날수록 호전될 것으로 보이고 가까운 병원에서도 검사겸 문의해주시면 좋을것 같습니다.',
+'doctor@nate.com',sysdate,'수의사','PRO_BOARD');
+
+/*COMMUNICATION_PHOTO_LIST -----------------------------------------------------------*/
+insert into COMMUNICATION_PHOTO_LIST values(1, 'B003059676.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(2, '20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png,70b56dcfeac3435a99094ec36b8348cf.png,b20bb30b99304d92bb6d5c2f68df953e.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(3, 'N', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(4, 'sdgdsfgsdfg.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(5, '70b56dcfeac3435a99094ec36b8348cf.png,b20bb30b99304d92bb6d5c2f68df953e.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(6, 'B003059676.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(7, '70b56dcfeac3435a99094ec36b8348cf.png,b20bb30b99304d92bb6d5c2f68df953e.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(8, 'fwwwwewefew.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(9, 'N', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(10, 'b20bb30b99304d92bb6d5c2f68df953e.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,dfgrdgdxfvbdf.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(11, 'vcervever.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(12, 'b20bb30b99304d92bb6d5c2f68df953e.jpg,vcervever.jpg,20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(13, '20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,70b56dcfeac3435a99094ec36b8348cf.png', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(14, 'sdgdsfgsdfg.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,dfgrdgdxfvbdf.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(15, 'b20bb30b99304d92bb6d5c2f68df953e.jpg,vcervever.jpg,70b56dcfeac3435a99094ec36b8348cf.png', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(16, 'sdfgdgdf.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(17, 'vcervever.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,dfgrdgdxfvbdf.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(18, 'B003059676.jpg,sdfsdfsaasaasassa.jpg,70b56dcfeac3435a99094ec36b8348cf.png', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(19, 'fwwwwewefew.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,dfgrdgdxfvbdf.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(20, 'B003059676.jpg,ftjtyjfghjghj.jpg,dfgrdgdxfvbdf.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(21, 'sasdasdvcvcvcvc.jpg,sdfsdfsaasaasassa.jpg,vcervever.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(22, '20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg,sasdasdvcvcvcvc.jpg,70b56dcfeac3435a99094ec36b8348cf.png', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(23, 'vcervever.jpg,ftjtyjfghjghj.jpg,dfgrdgdxfvbdf.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(24, 'sdfgdgdf.jpg,rfzgfsgfsdbf.jpg,sasdasdvcvcvcvc.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(25, '20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg,vcervever.jpg,70b56dcfeac3435a99094ec36b8348cf.png', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(26, 'sasdasdvcvcvcvc.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,sasdasdvcvcvcvc.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(27, 'sdfgdgdf.jpg,sasdasdvcvcvcvc.jpg,70b56dcfeac3435a99094ec36b8348cf.png', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(28, '20190430_03a3da83912a14b8d9dfd67b7ccf538c.jpg,rfzgfsgfsdbf.jpg,B003059676.jpg,sdfsdfsaasaasassa.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+insert into COMMUNICATION_PHOTO_LIST values(29, 'B003059676.jpg,367d90d709b1409aa06f5a22bbdf0476.jpg,dfgrdgdxfvbdf.jpg', to_date(sysdate, 'YYYY-MM-DD HH:mi'), 'sitter01');
+
+
+
+
+
+
+-- usinglist 예시 데이터
+-- 순서대로
+-- 이용 번호, 펫시터 아이디, 펫시터 주소, 회원 아이디, 결제 금액, 시작 날짜+시간(시 단위), 종료 날짜+시간, 돌봄 타입, 결제 번호
+-- 이용 번호(1부터 시작)
+-- insert 할 때 pay에 먼저 insert 하고 usinglist에 insert 하는게 좋습니다
+-- 결제 번호, 결제 금액은 pay에 동일하게 들어가 있어야합니다
+-- petmember2@naver.com amount = 538000
+-- petmember1@nate.com amount = 675000
+-- petmember2@naver.com point = 5380
+-- petmember1@nate.com point = 6750
+-- 이걸로 수정 해주세요
+update member set member_amount = 538000 where member_id = 'petmember2@naver.com';
+update member set member_amount = 675000 where member_id = 'petmember1@nate.com';
+update member set member_point = 5380 where member_id = 'petmember2@naver.com';
+update member set member_point = 6750 where member_id = 'petmember1@nate.com';
+commit;
+
+drop table usinglist;
+create table USINGLIST(
+    LIST_NUM number(10) primary key,
+    PETSITTER_ID varchar2(30),
+    PETSITTER_ADDR varchar2(100),
+    MEMBER_ID varchar2(30),
+    LIST_PRICE number(8),
+    LIST_START_DATE date,
+    LIST_END_DATE date,
+    LIST_TYPE varchar2(10),
+    MERCHANT_UID varchar2(10) -- 거래 고유 아이디
+);
+
+insert into usinglist
+values(1, 'petsitter', '서울 서초구', 'petmember2@naver.com', 98000, to_date('2020-07-21 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-23 15:00', 'YYYY-MM-DD HH24:mi'), '위탁', 'u2bv9u');
+insert into usinglist
+values(2, 'petsitter', '서울 서초구', 'petmember2@naver.com', 194000, to_date('2020-07-25 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-29 15:00', 'YYYY-MM-DD HH24:mi'), '위탁', '31ihnI');
+insert into usinglist
+values(3, 'petsitter', '서울 서초구', 'petmember2@naver.com', 50000, to_date('2020-07-29 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-30 15:00', 'YYYY-MM-DD HH24:mi'), '위탁', '408ndB');
+insert into usinglist
+values(4, 'petsitter', '서울 서초구', 'petmember2@naver.com', 60000, to_date('2020-07-30 09:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-30 21:00', 'YYYY-MM-DD HH24:mi'), '위탁', 'S8q4ea');
+insert into usinglist
+values(5, 'sitter01', '서울 서초구', 'petmember2@naver.com', 30000, to_date('2020-08-01 10:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-01 16:00', 'YYYY-MM-DD HH24:mi'), '방문', 'X87xAB');
+insert into usinglist
+values(6, 'sitter01', '서울 서초구', 'petmember1@nate.com', 50000, to_date('2020-07-29 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-30 15:00', 'YYYY-MM-DD HH24:mi'), '위탁', '9Q7axZ');
+insert into usinglist
+values(7, 'sitter01', '서울 서초구', 'petmember1@nate.com', 58000, to_date('2020-07-18 11:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-19 16:00', 'YYYY-MM-DD HH24:mi'), '위탁', '8Po81A');
+insert into usinglist
+values(8, 'petsitter', '서울 서초구', 'petmember1@nate.com', 100000, to_date('2020-08-10 09:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-12 11:00', 'YYYY-MM-DD HH24:mi'), '위탁', '88AlZw');
+insert into usinglist
+values(9, 'sitter01', '서울 서초구', 'petmember1@nate.com', 62000, to_date('2020-08-03 12:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-04 19:00', 'YYYY-MM-DD HH24:mi'), '위탁', 'o0A5sB');
+insert into usinglist
+values(10, 'sitter01', '서울 서초구', 'petmember1@nate.com', 75000, to_date('2020-07-21 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-23 15:00', 'YYYY-MM-DD HH24:mi'), '위탁', '8UrJiv');
+insert into usinglist
+values(11, 'sitter01', '서울 서초구', 'petmember1@nate.com', 45000, to_date('2020-08-07 10:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-07 19:00', 'YYYY-MM-DD HH24:mi'), '방문', '37uhAv');
+insert into usinglist
+values(12, 'petsitter', '서울 서초구', 'petmember1@nate.com', 154000, to_date('2020-08-05 10:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-08 15:00', 'YYYY-MM-DD HH24:mi'), '위탁', '2u7wus');
+insert into usinglist
+values(13, 'petsitter', '서울 서초구', 'petmember1@nate.com', 35000, to_date('2020-07-29 08:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-29 15:00', 'YYYY-MM-DD HH24:mi'), '방문', 'Bk31hb');
+insert into usinglist
+values(14, 'petsitter', '서울 서초구', 'petmember1@nate.com', 96000, to_date('2020-09-02 10:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-09-04 10:00', 'YYYY-MM-DD HH24:mi'), '위탁', 'i82Hnu');
+insert into usinglist
+values(15, 'sitter01', '서울 서초구', 'petmember2@naver.com', 48000, to_date('2020-08-22 19:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-23 19:00', 'YYYY-MM-DD HH24:mi'), '위탁', 'AisVow');
+insert into usinglist
+values(16, 'petsitter', '서울 서초구', 'petmember2@naver.com', 58000, to_date('2020-08-11 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-12 19:00', 'YYYY-MM-DD HH24:mi'), '위탁', '2J4kbg');
+-- usinglist 예시 데이터 끝
+
+-- pay 예시 데이터
+-- 회원 아이디, 결제 금액, 펫시터 아이디, 결제 번호, 결제 날짜, 돌봄 타입, 시작 날짜+시간, 종료 날짜+시간, 결제 완료(취소 시 결제 취소로 자동 변경)
+-- 결제 금액과 결제 번호는 usinglist와 같아야 합니다
+-- pay insert문을 만들게되면 MEMBER_POINT에 결제 금액의 1% 넣어야합니다
+select * from pay;
+insert into pay
+values('petmember2@naver.com', 98000, 'petsitter', 'u2bv9u', sysdate, '위탁', to_date('2020-07-21 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-23 15:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember2@naver.com', 194000, 'petsitter', '31ihnI', sysdate, '위탁', to_date('2020-07-25 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-29 15:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember2@naver.com', 50000, 'petsitter', '408ndB', sysdate, '위탁', to_date('2020-07-29 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-30 15:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember2@naver.com', 60000, 'petsitter', 'S8q4ea', sysdate, '위탁', to_date('2020-07-30 09:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-30 21:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember2@naver.com', 30000, 'sitter01', 'X87xAB', sysdate, '방문', to_date('2020-08-01 10:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-01 16:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 50000, 'sitter01', '9Q7axZ', sysdate, '위탁', to_date('2020-07-29 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-30 15:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 58000, 'sitter01', '8Po81A', sysdate, '위탁', to_date('2020-07-18 11:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-19 16:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 100000, 'petsitter', '88AlZw', sysdate, '위탁', to_date('2020-08-10 09:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-12 11:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 62000, 'sitter01', 'o0A5sB', sysdate, '위탁', to_date('2020-08-03 12:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-04 19:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 75000, 'sitter01', '8UrJiv', sysdate, '위탁', to_date('2020-07-21 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-23 15:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 45000, 'sitter01', '37uhAv', sysdate, '방문', to_date('2020-08-07 10:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-07 19:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 154000, 'petsitter', '2u7wus', sysdate, '위탁', to_date('2020-08-05 10:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-08 15:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 35000, 'petsitter', 'Bk31hb', sysdate, '방문', to_date('2020-07-29 08:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-07-29 15:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember1@nate.com', 96000, 'petsitter', 'i82Hnu', sysdate, '위탁', to_date('2020-09-02 10:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-09-04 10:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember2@naver.com', 48000, 'sitter01', 'AisVow', sysdate, '위탁', to_date('2020-08-22 19:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-23 19:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+insert into pay
+values('petmember2@naver.com', 58000, 'petsitter', '2J4kbg', sysdate, '위탁', to_date('2020-08-11 14:00', 'YYYY-MM-DD HH24:mi'), to_date('2020-08-12 19:00', 'YYYY-MM-DD HH24:mi'), '결제 완료',0);
+-- pay 예시 데이터 끝
+
+
+-- 데이터 지우기
+truncate table report_article;
+truncate table report_reply;
+truncate table notice_board;
+truncate table member_board;
+truncate table mreply;
+truncate table pro_board;
+truncate table petsitter_qna_board;
+
+-- 글 신고
+insert into report_article (member_num, report_reason, member_id, btype, processing)
+values(1, '글에 욕설이 과하게 섞여있고 비난이 심합니다.', 'petmember1@nate.com', 'mboard', 'N');
+insert into report_article (member_num, report_reason, member_id, btype, processing)
+values(2, '타 사이트 광고를 하며 이 사이트를 비난합니다.', 'petmember2@naver.com', 'mboard', 'N');
+insert into report_article (member_num, report_reason, member_id, btype, processing)
+values(3, '다른 펫시터에 대한 비방이 들어있습니다.', 'petmember2@naver.com', 'review_board', 'N');
+insert into report_article (member_num, report_reason, member_id, btype, processing)
+values(4, '같은 내용으로 연속해서 질문을 올립니다.', 'petmember1@nate.com', 'pqboard', 'Y');
+
+-- 리플 신고
+insert into report_reply (bno, rno, report_reason, member_id, btype, processing)
+values(1, 1, '과한 욕설로 신고합니다.', 'petmember1@naver.com', 'mboard', 'Y');
+insert into report_reply (bno, rno, report_reason, member_id, btype, processing)
+values(1, 2, '비꼬는 내용의 리플입니다.', 'petmember2@nate.com', 'pqboard', 'Y');
+insert into report_reply (bno, rno, report_reason, member_id, btype, processing)
+values(2, 1, '스팸이에요.', 'petmember2@nate.com', 'mboard', 'Y');
+
+-- 공지사항 추가
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (1,'admin@admin.admin','자주 묻는 질문','<p><strong>Q. 어떤 서비스를 제공하나요?</strong></p>
+<p>A. 저희는 국내 최고 반려동물 전문가들의 교육을 받은 펫시터분들의 전문 케어와 픽업 서비스 등 이용가능한 다양한 서비스 옵션을 제공하고 있습니다.</p>
+<br />
+<p><strong>Q. 믿을 수 있는 펫시터들인가요?</strong></p>
+<p>A. 저희 펫시터는 철저한 신원 검증 시스템과 전문적인 교육을 통과한 분들입니다. 저희는 다양한 검증 과정을 통해 펫시터들을 선발하고 있으며, 국내최고 반려동물 전문가들의 지속적인 교육으로 전문적인 펫시팅 서비스를 제공하도록 합니다.</p>
+<br />
+<p><strong>Q. 예약 취소 및 환불 규정은 어떻게 되나요?</strong></p>
+<p>A. 예약 취소에 따른 환불 가능 금액은 체크인 전 시간에 따라 다르며, 체크인 시간 후에는 환불이 불가능합니다. 조기 서비스 종료시에도 환불이 불가합니다. 자세한 내용은 1:1 문의로 연락주시면 친절히 안내해드리겠습니다.</p>
+<br />
+<p><strong>Q. 서비스 이용 중 반려동물이 아프거나 다치면 어떻게 하나요?</strong></p>
+<p>A. 고객님과 펫시터가 사전에 지정한 병원에 방문하여 진료를 받을 수 있습니다. 진단 및 진료 후 과실 여부에 따라 펫스티니의 보상 프로그램을 적용받으실 수 있습니다.</p>
+',null,null,0,to_date('20/08/05','RR/MM/DD'),'관리자','Y');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (2,'admin@admin.admin','여름 성수기 예약 안내',
+'<p>7월 1일부터 8월 31일까지 여름 성수기 기간으로</p>
+<p>돌봄요금의 20% 할증 요금으로 안내 드릴 예정입니다.</p>
+<p>예약은 선착순으로 진행되며 지역에 따라 조기마감이</p>
+<p>될 수 있으니 돌봄 이용에 착오 없으시길 바랍니다.</p>
+<p>저희 서비스를 이용해주셔서 감사합니다.</p>
+',null,null,0,to_date('20/08/05','RR/MM/DD'),'관리자','N');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (3, 'admin@admin.admin', '코로나 바이러스 안내', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'N');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (4, 'admin@admin.admin', '환불 관련 안내', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'Y');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (5, 'admin@admin.admin', '이용료 변경 안내', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'N');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (6, 'admin@admin.admin', '근무시간 변경 안내', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'N');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (7, 'admin@admin.admin', '회사 여름휴가 기간입니다.', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'N');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (8, 'admin@admin.admin', '현금영수증 발행 관련 안내', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'Y');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (9, 'admin@admin.admin', '사이트 점검 시간 안내드립니다.', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'N');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (10, 'admin@admin.admin', '펫시터 상시 모집중입니다', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'N');
+Insert into notice_board (NOTICE_NUM,NOTICE_ID,NOTICE_SUBJECT,NOTICE_CONTENT,NOTICE_ORG_FILE,NOTICE_UP_FILE,NOTICE_READCOUNT,NOTICE_DATE,NOTICE_NICKNAME,NOTI) 
+values (11, 'admin@admin.admin', '이달의 쿠폰번호입니다.', '안내중', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), '관리자', 'N');
+
+-- 회원 게시판
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (2,'petmember2@naver.com','장기이용시 할인 가능한가요?','<p>궁금합니다.</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'양이랑','on');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (1,'petmember1@nate.com','강아지가 밥을 잘 안 먹어요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (3,'petmember1@nate.com','강아지가 밥을 잘 먹어요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (4,'petmember1@nate.com','강아지가 밥을 또 잘 안 먹어요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (5,'petmember1@nate.com','강아지 사진이에요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (6,'petmember1@nate.com','고양이 사진이에요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (7,'petmember1@nate.com','고양이가 밥을 잘 안먹어요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (8,'petmember1@nate.com','고양이 밥을 잘 먹어요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (9,'petmember1@nate.com','고양이 또 밥을 잘 안 먹어요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (10,'petmember1@nate.com','고양이 사진이에요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+<p>더워서 그런걸까요 병원에 데려가봐야하나요?</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (11,'petmember2@naver.com','쿠폰 없나요??','<p>궁금합니다.</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'양이랑','on');
+Insert into member_board (MEMBER_NUM,MEMBER_ID,MEMBER_SUBJECT,MEMBER_CONTENT,MEMBER_ORG_FILE,MEMBER_UP_FILE,MEMBER_READCOUNT,MEMBER_DATE,MEMBER_LIKECOUNT,MEMBER_NICKNAME,MEMBER_SECRET) values (12,'petmember1@nate.com','고양이가 말을 해요','<p>며칠전부터 식사량이 반으로 줄었어요</p>
+',null,null,2,to_date('20/08/05','RR/MM/DD'),0,'푸들과','N');
+
+-- 회원 게시판 리플
+Insert into mreply (BNO,RNO,CONTENT,WRITER_ID,REGDATE,WRITER_NAME,WRITER_RANK) values (1,1,'의학적 문의는 받지 않습니다.','admin@admin.admin',to_date('20/08/05','RR/MM/DD'),'관리자','admin');
+Insert into mreply (BNO,RNO,CONTENT,WRITER_ID,REGDATE,WRITER_NAME,WRITER_RANK) values (2,1,'2주 이상 이용시 펫시터님과 협의하에 가능합니다.','admin@admin.admin',to_date('20/08/05','RR/MM/DD'),'관리자','admin');
+Insert into mreply (BNO,RNO,CONTENT,WRITER_ID,REGDATE,WRITER_NAME,WRITER_RANK) values (11,1,'없어요.','admin@admin.admin',to_date('20/08/05','RR/MM/DD'),'관리자','admin');
+Insert into mreply (BNO,RNO,CONTENT,WRITER_ID,REGDATE,WRITER_NAME,WRITER_RANK) values (11,2,'확인해보니 공지사항에 있습니다.','admin@admin.admin',to_date('20/08/05','RR/MM/DD'),'관리자','admin');
+
+-- 전문가 게시판 글
+insert into pro_board (pro_num, member_id, member_nickname, pro_subject, pro_content, pro_org_file, pro_up_file, pro_readcount, pro_date, pro_likecount, board_type, secret_check)
+values(1, 'petmember1@nate.com', '푸들과', '고양이가 두발로 걸어다녀요', '진짜임', null, null, 0, to_date('20/08/05', 'RR/MM/DD'), 0, 'pro_board', 'N');
+
+-- 펫시터 qna 게시판 글
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '고양이가 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 1);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '호랑이가 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 2);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '사자가 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 3);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '푸들이 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 4);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '강아지가 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 5);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '기린이 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 6);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '코알라가 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 7);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '코끼리가 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 8);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '구렁이가 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 9);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '뱀이 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 10);
+Insert into petsitter_qna_board(petsitter_id, petsitter_nickname, member_id, member_nickname, petsitter_qna_subject, petsitter_qna_content, petsitter_qna_date, petsitter_qna_bno) 
+values ('petsitter', '펫과함께', 'petmember1@nate.com', '푸들과', '악어가 잠만 자요', '<p>안 일어남</p>', to_date('20/08/05','RR/MM/DD'), 11);
+
+commit;
